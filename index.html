@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shoppers Intention AI — Machine learning demo that predicts whether an e-commerce session will end in a purchase, powered by a Random Forest model trained on 12,330 sessions.">
+  <title>Shoppers Intention AI — Purchase Prediction</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Particle background canvas -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <div class="app-wrapper">
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 1 — Hero
+         ═══════════════════════════════════════════════════════ -->
+    <header class="hero">
+      <div class="hero__badge">
+        <span class="dot"></span>
+        AI-Powered Prediction
+      </div>
+      <h1 class="hero__title">
+        <span class="gradient-text">Shoppers Intention</span> AI
+      </h1>
+      <p class="hero__subtitle">
+        Predict whether an e-commerce browsing session will convert to a purchase — powered by a Random Forest model trained on 12,330 real sessions.
+      </p>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTIONS 2 & 3 — Form + Live Result (side by side)
+         ═══════════════════════════════════════════════════════ -->
+    <div class="main-content">
+
+      <!-- ── Input Form ──────────────────────────────────── -->
+      <section class="form-section" aria-label="Session features input">
+
+        <!-- Group: Browsing Behavior -->
+        <div class="form-group glass-card" id="group-browsing">
+          <h2 class="form-group__title">Browsing Behavior</h2>
+          <div class="form-group__grid">
+
+            <div class="field">
+              <label class="field__label" for="administrative">
+                Administrative
+                <span class="field__value" id="val-administrative">0</span>
+              </label>
+              <input type="range" id="administrative" min="0" max="27" step="1" value="0">
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="administrative-duration">
+                Admin Duration (s)
+                <span class="field__value" id="val-administrative-duration">0</span>
+              </label>
+              <input type="range" id="administrative-duration" min="0" max="3400" step="10" value="0">
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="informational">
+                Informational
+                <span class="field__value" id="val-informational">0</span>
+              </label>
+              <input type="range" id="informational" min="0" max="24" step="1" value="0">
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="informational-duration">
+                Info Duration (s)
+                <span class="field__value" id="val-informational-duration">0</span>
+              </label>
+              <input type="range" id="informational-duration" min="0" max="2550" step="10" value="0">
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="product-related">
+                Product Related
+                <span class="field__value" id="val-product-related">1</span>
+              </label>
+              <input type="range" id="product-related" min="0" max="705" step="1" value="1">
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="product-related-duration">
+                Product Duration (s)
+                <span class="field__value" id="val-product-related-duration">0</span>
+              </label>
+              <input type="range" id="product-related-duration" min="0" max="64000" step="100" value="0">
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Group: Page Metrics -->
+        <div class="form-group glass-card" id="group-metrics">
+          <h2 class="form-group__title">Page Metrics</h2>
+          <div class="form-group__grid">
+
+            <div class="field">
+              <label class="field__label" for="bounce-rates">
+                Bounce Rates
+                <span class="field__value" id="val-bounce-rates">0.020</span>
+              </label>
+              <input type="range" id="bounce-rates" min="0" max="0.2" step="0.001" value="0.02">
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="exit-rates">
+                Exit Rates
+                <span class="field__value" id="val-exit-rates">0.040</span>
+              </label>
+              <input type="range" id="exit-rates" min="0" max="0.2" step="0.001" value="0.04">
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="page-values">
+                Page Values
+                <span class="field__value" id="val-page-values">0</span>
+              </label>
+              <input type="range" id="page-values" min="0" max="360" step="1" value="0">
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="special-day">
+                Special Day
+                <span class="field__value" id="val-special-day">0.0</span>
+              </label>
+              <input type="range" id="special-day" min="0" max="1" step="0.1" value="0">
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Group: Session Context -->
+        <div class="form-group glass-card" id="group-context">
+          <h2 class="form-group__title">Session Context</h2>
+          <div class="form-group__grid">
+
+            <div class="field">
+              <label class="field__label" for="month">Month</label>
+              <select id="month">
+                <option value="Feb">February</option>
+                <option value="Mar">March</option>
+                <option value="May">May</option>
+                <option value="Jun" selected>June</option>
+                <option value="Jul">July</option>
+                <option value="Aug">August</option>
+                <option value="Sep">September</option>
+                <option value="Oct">October</option>
+                <option value="Nov">November</option>
+                <option value="Dec">December</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="visitor-type">Visitor Type</label>
+              <select id="visitor-type">
+                <option value="Returning_Visitor" selected>Returning Visitor</option>
+                <option value="New_Visitor">New Visitor</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="os">Operating System</label>
+              <select id="os">
+                <option value="1">OS 1</option>
+                <option value="2" selected>OS 2</option>
+                <option value="3">OS 3</option>
+                <option value="4">OS 4</option>
+                <option value="5">OS 5</option>
+                <option value="6">OS 6</option>
+                <option value="7">OS 7</option>
+                <option value="8">OS 8</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="browser">Browser</label>
+              <select id="browser">
+                <option value="1">Browser 1</option>
+                <option value="2" selected>Browser 2</option>
+                <option value="3">Browser 3</option>
+                <option value="4">Browser 4</option>
+                <option value="5">Browser 5</option>
+                <option value="6">Browser 6</option>
+                <option value="7">Browser 7</option>
+                <option value="8">Browser 8</option>
+                <option value="9">Browser 9</option>
+                <option value="10">Browser 10</option>
+                <option value="11">Browser 11</option>
+                <option value="12">Browser 12</option>
+                <option value="13">Browser 13</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="region">Region</label>
+              <select id="region">
+                <option value="1" selected>Region 1</option>
+                <option value="2">Region 2</option>
+                <option value="3">Region 3</option>
+                <option value="4">Region 4</option>
+                <option value="5">Region 5</option>
+                <option value="6">Region 6</option>
+                <option value="7">Region 7</option>
+                <option value="8">Region 8</option>
+                <option value="9">Region 9</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="traffic-type">Traffic Type</label>
+              <select id="traffic-type">
+                <option value="1">Type 1</option>
+                <option value="2" selected>Type 2</option>
+                <option value="3">Type 3</option>
+                <option value="4">Type 4</option>
+                <option value="5">Type 5</option>
+                <option value="6">Type 6</option>
+                <option value="7">Type 7</option>
+                <option value="8">Type 8</option>
+                <option value="9">Type 9</option>
+                <option value="10">Type 10</option>
+                <option value="11">Type 11</option>
+                <option value="12">Type 12</option>
+                <option value="13">Type 13</option>
+                <option value="14">Type 14</option>
+                <option value="15">Type 15</option>
+                <option value="16">Type 16</option>
+                <option value="17">Type 17</option>
+                <option value="18">Type 18</option>
+                <option value="19">Type 19</option>
+                <option value="20">Type 20</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <div class="toggle-wrapper">
+                <label class="field__label" for="weekend">Weekend</label>
+                <label class="toggle">
+                  <input type="checkbox" id="weekend">
+                  <span class="toggle__track"></span>
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ── Live Result Panel ───────────────────────────── -->
+      <section class="result-section glass-card" aria-label="Prediction result" id="result-panel">
+
+        <!-- SVG Gauge -->
+        <div class="gauge-container">
+          <svg class="gauge-svg" viewBox="0 0 200 200" aria-hidden="true">
+            <circle class="gauge-bg"  cx="100" cy="100" r="85"></circle>
+            <circle class="gauge-fill" id="gauge-arc" cx="100" cy="100" r="85"
+                    stroke-dasharray="534.07"
+                    stroke-dashoffset="534.07"></circle>
+          </svg>
+          <div class="gauge-center-text">
+            <span class="gauge-percent" id="gauge-percent">0%</span>
+            <span class="gauge-label">Purchase Prob.</span>
+          </div>
+        </div>
+
+        <!-- Verdict -->
+        <div class="verdict-badge verdict-badge--no-purchase" id="verdict-badge">
+          <span class="verdict-icon" id="verdict-icon">✕</span>
+          <span id="verdict-text">Will Not Purchase</span>
+        </div>
+
+        <!-- Confidence -->
+        <div class="confidence-info">
+          <span class="confidence-info__label">Model Confidence</span>
+          <div class="confidence-bar">
+            <div class="confidence-bar__fill" id="confidence-fill" style="width: 0%; background: var(--danger);"></div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 4 — Feature Importance Chart
+         ═══════════════════════════════════════════════════════ -->
+    <section class="chart-section" aria-label="Feature importance">
+      <div class="chart-card glass-card">
+        <h2 class="chart-card__title">Feature Importance</h2>
+        <p class="chart-card__subtitle">
+          Relative influence of top features on purchase prediction (from Random Forest analysis)
+        </p>
+        <div class="chart-bars" id="chart-bars">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 5 — Model Info Footer
+         ═══════════════════════════════════════════════════════ -->
+    <footer class="model-footer" role="contentinfo">
+      <div class="model-footer__inner">
+        <div class="model-stat">
+          <span class="model-stat__value">89.25%</span>
+          <span class="model-stat__label">Test Accuracy</span>
+        </div>
+        <div class="model-stat">
+          <span class="model-stat__value">Random Forest</span>
+          <span class="model-stat__label">Model Type</span>
+        </div>
+        <div class="model-stat">
+          <span class="model-stat__value">12,330</span>
+          <span class="model-stat__label">Sessions Trained</span>
+        </div>
+        <div class="model-stat">
+          <span class="model-stat__value">17</span>
+          <span class="model-stat__label">Input Features</span>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- .app-wrapper -->
+
+  <script src="app.js"></script>
+</body>
+</html>
