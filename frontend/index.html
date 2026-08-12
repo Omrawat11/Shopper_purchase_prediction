@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The Oracle — A machine-learning model that reads the digital body language of online shoppers. Trained on 12,330 sessions.">
+  <title>The Oracle · Shoppers Intention</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Aurora background -->
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora__blob aurora__blob--1"></div>
+    <div class="aurora__blob aurora__blob--2"></div>
+    <div class="aurora__blob aurora__blob--3"></div>
+  </div>
+
+  <!-- Constellation canvas -->
+  <canvas id="stars" aria-hidden="true"></canvas>
+
+  <!-- Grain overlay -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <main class="shell">
+
+    <!-- ═══ MASTHEAD ═══ -->
+    <header class="masthead">
+      <div class="masthead__row">
+        <div class="mark">
+          <span class="mark__glyph">◐</span>
+          <span class="mark__word">The Oracle</span>
+        </div>
+        <nav class="masthead__nav" aria-label="Sections">
+          <a href="#oracle">Oracle</a>
+          <a href="#features">Features</a>
+          <a href="#model">Model</a>
+        </nav>
+        <div class="masthead__meta">
+          <span class="status">
+            <span class="status__pulse"></span>
+            Live · v1.0
+          </span>
+        </div>
+      </div>
+
+      <section class="hero">
+        <div class="hero__eyebrow">
+          <span class="eyebrow-rule"></span>
+          <span>Random Forest · 89.25% accuracy</span>
+        </div>
+
+        <h1 class="hero__title">
+          Reading the <em>silent language</em><br>
+          of online shoppers.
+        </h1>
+
+        <p class="hero__lede">
+          Seventeen signals. One decision. The Oracle watches how a session
+          unfolds — the time spent, the pages touched, the path abandoned —
+          and tells you, before the cart loads, whether this browser
+          becomes a buyer.
+        </p>
+
+        <div class="hero__cta">
+          <a href="#oracle" class="btn btn--primary">
+            Consult the Oracle
+            <span class="btn__arrow">→</span>
+          </a>
+          <span class="hero__stat">
+            <strong>12,330</strong> sessions · <strong>17</strong> features
+          </span>
+        </div>
+      </section>
+    </header>
+
+    <!-- ═══ BENTO GRID ═══ -->
+    <div class="bento" id="oracle">
+
+      <!-- ── INPUT PANEL (left, large) ── -->
+      <article class="card card--input glass">
+        <div class="card__head">
+          <div class="card__index">01</div>
+          <div>
+            <h2 class="card__title">The Session</h2>
+            <p class="card__sub">Describe the visitor's behaviour</p>
+          </div>
+        </div>
+
+        <!-- Browsing -->
+        <fieldset class="cluster">
+          <legend class="cluster__legend">
+            <span class="cluster__dot" style="--c: #f4a261"></span>
+            Browsing behaviour
+          </legend>
+          <div class="cluster__grid">
+
+            <div class="field">
+              <div class="field__head">
+                <label for="administrative">Administrative pages</label>
+                <output class="field__val" id="val-administrative">0</output>
+              </div>
+              <input type="range" id="administrative" min="0" max="27" step="1" value="0">
+              <div class="field__scale"><span>0</span><span>27</span></div>
+            </div>
+
+            <div class="field">
+              <div class="field__head">
+                <label for="administrative-duration">Admin duration (s)</label>
+                <output class="field__val" id="val-administrative-duration">0</output>
+              </div>
+              <input type="range" id="administrative-duration" min="0" max="3400" step="10" value="0">
+              <div class="field__scale"><span>0</span><span>3.4k</span></div>
+            </div>
+
+            <div class="field">
+              <div class="field__head">
+                <label for="informational">Informational pages</label>
+                <output class="field__val" id="val-informational">0</output>
+              </div>
+              <input type="range" id="informational" min="0" max="24" step="1" value="0">
+              <div class="field__scale"><span>0</span><span>24</span></div>
+            </div>
+
+            <div class="field">
+              <div class="field__head">
+                <label for="informational-duration">Info duration (s)</label>
+                <output class="field__val" id="val-informational-duration">0</output>
+              </div>
+              <input type="range" id="informational-duration" min="0" max="2550" step="10" value="0">
+              <div class="field__scale"><span>0</span><span>2.5k</span></div>
+            </div>
+
+            <div class="field">
+              <div class="field__head">
+                <label for="product-related">Product pages</label>
+                <output class="field__val" id="val-product-related">1</output>
+              </div>
+              <input type="range" id="product-related" min="0" max="705" step="1" value="1">
+              <div class="field__scale"><span>0</span><span>705</span></div>
+            </div>
+
+            <div class="field">
+              <div class="field__head">
+                <label for="product-related-duration">Product duration (s)</label>
+                <output class="field__val" id="val-product-related-duration">0</output>
+              </div>
+              <input type="range" id="product-related-duration" min="0" max="64000" step="100" value="0">
+              <div class="field__scale"><span>0</span><span>64k</span></div>
+            </div>
+
+          </div>
+        </fieldset>
+
+        <!-- Metrics -->
+        <fieldset class="cluster">
+          <legend class="cluster__legend">
+            <span class="cluster__dot" style="--c: #e76f51"></span>
+            Page metrics
+          </legend>
+          <div class="cluster__grid">
+
+            <div class="field">
+              <div class="field__head">
+                <label for="bounce-rates">Bounce rate</label>
+                <output class="field__val" id="val-bounce-rates">0.020</output>
+              </div>
+              <input type="range" id="bounce-rates" min="0" max="0.2" step="0.001" value="0.02">
+              <div class="field__scale"><span>0.00</span><span>0.20</span></div>
+            </div>
+
+            <div class="field">
+              <div class="field__head">
+                <label for="exit-rates">Exit rate</label>
+                <output class="field__val" id="val-exit-rates">0.040</output>
+              </div>
+              <input type="range" id="exit-rates" min="0" max="0.2" step="0.001" value="0.04">
+              <div class="field__scale"><span>0.00</span><span>0.20</span></div>
+            </div>
+
+            <div class="field">
+              <div class="field__head">
+                <label for="page-values">Page value</label>
+                <output class="field__val" id="val-page-values">0</output>
+              </div>
+              <input type="range" id="page-values" min="0" max="360" step="1" value="0">
+              <div class="field__scale"><span>0</span><span>360</span></div>
+            </div>
+
+            <div class="field">
+              <div class="field__head">
+                <label for="special-day">Special day proximity</label>
+                <output class="field__val" id="val-special-day">0.0</output>
+              </div>
+              <input type="range" id="special-day" min="0" max="1" step="0.1" value="0">
+              <div class="field__scale"><span>far</span><span>close</span></div>
+            </div>
+
+          </div>
+        </fieldset>
+
+        <!-- Context -->
+        <fieldset class="cluster">
+          <legend class="cluster__legend">
+            <span class="cluster__dot" style="--c: #c77dff"></span>
+            Session context
+          </legend>
+          <div class="cluster__grid cluster__grid--select">
+
+            <div class="field">
+              <label for="month">Month</label>
+              <select id="month">
+                <option value="Feb">February</option>
+                <option value="Mar">March</option>
+                <option value="May">May</option>
+                <option value="Jun" selected>June</option>
+                <option value="Jul">July</option>
+                <option value="Aug">August</option>
+                <option value="Sep">September</option>
+                <option value="Oct">October</option>
+                <option value="Nov">November</option>
+                <option value="Dec">December</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="visitor-type">Visitor type</label>
+              <select id="visitor-type">
+                <option value="Returning_Visitor" selected>Returning visitor</option>
+                <option value="New_Visitor">New visitor</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="os">Operating system</label>
+              <select id="os">
+                <option value="1">OS 1</option><option value="2" selected>OS 2</option>
+                <option value="3">OS 3</option><option value="4">OS 4</option>
+                <option value="5">OS 5</option><option value="6">OS 6</option>
+                <option value="7">OS 7</option><option value="8">OS 8</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="browser">Browser</label>
+              <select id="browser">
+                <option value="1">Browser 1</option><option value="2" selected>Browser 2</option>
+                <option value="3">Browser 3</option><option value="4">Browser 4</option>
+                <option value="5">Browser 5</option><option value="6">Browser 6</option>
+                <option value="7">Browser 7</option><option value="8">Browser 8</option>
+                <option value="9">Browser 9</option><option value="10">Browser 10</option>
+                <option value="11">Browser 11</option><option value="12">Browser 12</option>
+                <option value="13">Browser 13</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="region">Region</label>
+              <select id="region">
+                <option value="1" selected>Region 1</option>
+                <option value="2">Region 2</option><option value="3">Region 3</option>
+                <option value="4">Region 4</option><option value="5">Region 5</option>
+                <option value="6">Region 6</option><option value="7">Region 7</option>
+                <option value="8">Region 8</option><option value="9">Region 9</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="traffic-type">Traffic source</label>
+              <select id="traffic-type">
+                <option value="1">Source 1</option><option value="2" selected>Source 2</option>
+                <option value="3">Source 3</option><option value="4">Source 4</option>
+                <option value="5">Source 5</option><option value="6">Source 6</option>
+                <option value="7">Source 7</option><option value="8">Source 8</option>
+                <option value="9">Source 9</option><option value="10">Source 10</option>
+                <option value="11">Source 11</option><option value="12">Source 12</option>
+                <option value="13">Source 13</option><option value="14">Source 14</option>
+                <option value="15">Source 15</option><option value="16">Source 16</option>
+                <option value="17">Source 17</option><option value="18">Source 18</option>
+                <option value="19">Source 19</option><option value="20">Source 20</option>
+              </select>
+            </div>
+
+            <div class="field field--toggle">
+              <label for="weekend">Weekend session</label>
+              <label class="switch">
+                <input type="checkbox" id="weekend">
+                <span class="switch__rail"><span class="switch__knob"></span></span>
+              </label>
+            </div>
+
+          </div>
+        </fieldset>
+      </article>
+
+      <!-- ── VERDICT (right top) ── -->
+      <article class="card card--verdict glass" id="verdict-card">
+        <div class="card__head">
+          <div class="card__index">02</div>
+          <div>
+            <h2 class="card__title">The Reading</h2>
+            <p class="card__sub">A live verdict, by the model</p>
+          </div>
+        </div>
+
+        <div class="verdict">
+          <div class="verdict__dial">
+            <svg viewBox="0 0 220 220" class="dial">
+              <defs>
+                <linearGradient id="dialGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#f4a261"/>
+                  <stop offset="50%" stop-color="#e76f51"/>
+                  <stop offset="100%" stop-color="#c77dff"/>
+                </linearGradient>
+              </defs>
+              <!-- decorative ticks -->
+              <g class="dial__ticks" id="dial-ticks"></g>
+              <circle class="dial__bg" cx="110" cy="110" r="92"/>
+              <circle class="dial__fill" cx="110" cy="110" r="92" id="dial-fill"
+                      stroke-dasharray="578.05" stroke-dashoffset="578.05"/>
+              <circle class="dial__glow" cx="110" cy="110" r="92" id="dial-glow"/>
+            </svg>
+            <div class="verdict__num">
+              <span id="verdict-percent">0</span><span class="verdict__unit">%</span>
+              <small>Purchase probability</small>
+            </div>
+          </div>
+
+          <div class="verdict__call" id="verdict-call">
+            <span class="verdict__icon" id="verdict-icon">·</span>
+            <span class="verdict__text" id="verdict-text">Awaiting reading</span>
+          </div>
+
+          <div class="verdict__signal">
+            <div class="verdict__signal-head">
+              <span>Confidence</span>
+              <span id="confid-pct">0%</span>
+            </div>
+            <div class="track">
+              <div class="track__fill" id="confid-fill" style="width:0%"></div>
+            </div>
+          </div>
+
+          <ul class="verdict__why" id="verdict-why">
+            <!-- populated by JS -->
+          </ul>
+        </div>
+      </article>
+
+      <!-- ── FEATURE IMPORTANCE (right middle) ── -->
+      <article class="card card--features glass" id="features">
+        <div class="card__head">
+          <div class="card__index">03</div>
+          <div>
+            <h2 class="card__title">The Weights</h2>
+            <p class="card__sub">What the forest listens to</p>
+          </div>
+        </div>
+        <div class="weights" id="weights">
+          <!-- populated by JS -->
+        </div>
+      </article>
+
+      <!-- ── MODEL CARD (right bottom wide) ── -->
+      <article class="card card--model glass" id="model">
+        <div class="card__head">
+          <div class="card__index">04</div>
+          <div>
+            <h2 class="card__title">The Vessel</h2>
+            <p class="card__sub">A peek inside the algorithm</p>
+          </div>
+        </div>
+
+        <div class="vessel">
+          <div class="vessel__cell">
+            <span class="vessel__num">89.25</span>
+            <span class="vessel__unit">%</span>
+            <span class="vessel__label">Test accuracy</span>
+          </div>
+          <div class="vessel__cell">
+            <span class="vessel__num">500</span>
+            <span class="vessel__label">Trees in the forest</span>
+          </div>
+          <div class="vessel__cell">
+            <span class="vessel__num">12,330</span>
+            <span class="vessel__label">Sessions trained on</span>
+          </div>
+          <div class="vessel__cell">
+            <span class="vessel__num">17</span>
+            <span class="vessel__label">Input signals</span>
+          </div>
+        </div>
+
+        <div class="quote">
+          <span class="quote__mark">“</span>
+          The model learns from a year of human indecision — every abandoned
+          cart, every deep-scroll at 2 a.m. — and finds the pattern hidden
+          in 12,330 sessions.
+        </div>
+      </article>
+
+    </div><!-- .bento -->
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer class="foot">
+      <div class="foot__left">
+        <span class="mark mark--small">
+          <span class="mark__glyph">◐</span>
+          The Oracle
+        </span>
+        <span>Built with care · UCI Online Shoppers dataset</span>
+      </div>
+      <div class="foot__right">
+        <span>Predictions are client-side simulations of a Random Forest classifier.</span>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
