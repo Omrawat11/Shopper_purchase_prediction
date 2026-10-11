@@ -1,6 +1,6 @@
 /* ════════════════════════════════════════════════════════
-   The Oracle — app.js
-   Constellation bg · live gauge · feature weights · motion
+   The Oracle — app.js · v2.0
+   Enhanced constellation · liquid gauge · feature weights
    ────────────────────────────────────────────────────────
    The predictPurchaseProbability function simulates a
    Random Forest classifier via a weighted logistic curve.
@@ -13,8 +13,10 @@
   const canvas = document.getElementById('stars');
   const ctx = canvas.getContext('2d');
   let stars = [];
-  const STAR_COUNT = 70;
-  const LINK_DIST = 130;
+  const STAR_COUNT = 90;
+  const LINK_DIST = 140;
+  let mouse = { x: -1000, y: -1000 };
+  const MOUSE_DIST = 180;
 
   function resize() {
     canvas.width = window.innerWidth * devicePixelRatio;
@@ -30,11 +32,12 @@
       stars.push({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        vx: (Math.random() - 0.5) * 0.18,
-        vy: (Math.random() - 0.5) * 0.18,
-        r: Math.random() * 1.2 + 0.4,
-        a: Math.random() * 0.6 + 0.2,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: (Math.random() - 0.5) * 0.15,
+        r: Math.random() * 1.4 + 0.3,
+        a: Math.random() * 0.5 + 0.15,
         twinkle: Math.random() * Math.PI * 2,
+        twinkleSpeed: 0.008 + Math.random() * 0.02,
       });
     }
   }
@@ -42,15 +45,30 @@
   function draw() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-    // links
+    // Mouse interaction — attract stars slightly toward cursor
+    for (const s of stars) {
+      const dx = mouse.x - s.x;
+      const dy = mouse.y - s.y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < MOUSE_DIST && d > 0) {
+        const force = (1 - d / MOUSE_DIST) * 0.003;
+        s.vx += dx * force;
+        s.vy += dy * force;
+      }
+      // Dampen velocity
+      s.vx *= 0.998;
+      s.vy *= 0.998;
+    }
+
+    // Links
     for (let i = 0; i < stars.length; i++) {
       for (let j = i + 1; j < stars.length; j++) {
         const dx = stars[i].x - stars[j].x;
         const dy = stars[i].y - stars[j].y;
-        const d = Math.sqrt(dx*dx + dy*dy);
+        const d = Math.sqrt(dx * dx + dy * dy);
         if (d < LINK_DIST) {
-          const alpha = (1 - d / LINK_DIST) * 0.18;
-          ctx.strokeStyle = `rgba(244, 162, 97, ${alpha})`;
+          const alpha = (1 - d / LINK_DIST) * 0.12;
+          ctx.strokeStyle = `rgba(255, 107, 53, ${alpha})`;
           ctx.lineWidth = 0.5;
           ctx.beginPath();
           ctx.moveTo(stars[i].x, stars[i].y);
@@ -60,14 +78,31 @@
       }
     }
 
-    // stars
+    // Stars with multi-color twinkle
+    const colors = [
+      [255, 107, 53],   // accent
+      [139, 92, 246],   // violet
+      [238, 240, 246],  // paper
+    ];
+
     for (const s of stars) {
-      s.twinkle += 0.02;
+      s.twinkle += s.twinkleSpeed;
       const flicker = (Math.sin(s.twinkle) + 1) / 2;
+      const colorIdx = Math.floor(s.twinkle * 0.3) % colors.length;
+      const c = colors[colorIdx];
+
       ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(247, 241, 232, ${s.a * (0.5 + flicker * 0.5)})`;
+      ctx.arc(s.x, s.y, s.r * (0.8 + flicker * 0.4), 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${c[0]}, ${c[1]}, ${c[2]}, ${s.a * (0.4 + flicker * 0.6)})`;
       ctx.fill();
+
+      // Glow for brighter stars
+      if (s.r > 1) {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r * 3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${c[0]}, ${c[1]}, ${c[2]}, ${s.a * flicker * 0.08})`;
+        ctx.fill();
+      }
 
       s.x += s.vx;
       s.y += s.vy;
@@ -85,23 +120,42 @@
   spawn();
   draw();
   window.addEventListener('resize', () => { resize(); spawn(); });
+  document.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+
+  /* ═══ 1b. GLASS CARD HOVER TRACKING ════════════════════ */
+  document.querySelectorAll('.glass').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--mx', x + '%');
+      card.style.setProperty('--my', y + '%');
+    });
+  });
 
   /* ═══ 2. DIAL TICKS (decorative) ═══════════════════════ */
   const ticksGroup = document.getElementById('dial-ticks');
   if (ticksGroup) {
     let ticks = '';
-    for (let i = 0; i < 24; i++) {
-      const a = (i / 24) * Math.PI * 2;
-      const x1 = 110 + Math.cos(a) * 100;
-      const y1 = 110 + Math.sin(a) * 100;
-      const x2 = 110 + Math.cos(a) * 106;
-      const y2 = 110 + Math.sin(a) * 106;
-      ticks += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`;
+    for (let i = 0; i < 36; i++) {
+      const a = (i / 36) * Math.PI * 2;
+      const isMain = i % 3 === 0;
+      const innerR = isMain ? 98 : 100;
+      const outerR = 106;
+      const x1 = 110 + Math.cos(a) * innerR;
+      const y1 = 110 + Math.sin(a) * innerR;
+      const x2 = 110 + Math.cos(a) * outerR;
+      const y2 = 110 + Math.sin(a) * outerR;
+      const opacity = isMain ? 0.35 : 0.15;
+      ticks += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="opacity:${opacity}"/>`;
     }
     ticksGroup.innerHTML = ticks;
   }
 
-  /* �══ 3. PREDICTION (weighted sigmoid simulation) ══════ */
+  /* ═══ 3. PREDICTION (weighted sigmoid simulation) ══════ */
   const RANGES = {
     pageValues:             { min: 0, max: 360 },
     exitRates:              { min: 0, max: 0.2 },
@@ -262,16 +316,11 @@
 
   function lerp(a, b, t) { return a + (b - a) * t; }
 
-  function probToGradient(p) {
-    // 0 = coral/red-violet, 0.5 = amber, 1 = green
-    if (p < 0.5) return `linear-gradient(90deg, #e76f51, #f4a261)`;
-    return `linear-gradient(90deg, #f4a261, #7fb069)`;
-  }
-
   function probToAccent(p) {
-    if (p < 0.4) return '#e76f51';
-    if (p < 0.65) return '#f4a261';
-    return '#7fb069';
+    if (p < 0.35) return '#ef4444';
+    if (p < 0.55) return '#ff6b35';
+    if (p < 0.7)  return '#f59e0b';
+    return '#10b981';
   }
 
   function update(p, impacts) {
@@ -281,7 +330,7 @@
     dialGlow.setAttribute('stroke-dashoffset', offset);
     const accent = probToAccent(p);
     dialGlow.setAttribute('stroke', accent);
-    dialGlow.style.opacity = 0.2 + p * 0.4;
+    dialGlow.style.opacity = 0.15 + p * 0.35;
 
     // Animate count-up
     animateNumber(verdictNum, pct);
@@ -322,7 +371,7 @@
   let displayedPct = 0;
   function animateNumber(el, target) {
     const start = displayedPct;
-    const dur = 600;
+    const dur = 700;
     const t0 = performance.now();
     function tick(t) {
       const k = Math.min(1, (t - t0) / dur);
@@ -369,12 +418,12 @@
 
   /* ═══ 8. FEATURE WEIGHT CHART ══════════════════════════ */
   const WEIGHTS = [
-    { label: 'Page Value',         pct: 0.38, color: '#f4a261' },
-    { label: 'Exit Rate',          pct: 0.24, color: '#e76f51' },
-    { label: 'Bounce Rate',        pct: 0.20, color: '#c77dff' },
-    { label: 'Product Duration',   pct: 0.18, color: '#e85d75' },
-    { label: 'Product Pages',      pct: 0.10, color: '#5eaaa8' },
-    { label: 'Admin Duration',     pct: 0.06, color: '#9b8db0' },
+    { label: 'Page Value',         pct: 0.38, color: '#ff6b35' },
+    { label: 'Exit Rate',          pct: 0.24, color: '#f43f5e' },
+    { label: 'Bounce Rate',        pct: 0.20, color: '#8b5cf6' },
+    { label: 'Product Duration',   pct: 0.18, color: '#06b6d4' },
+    { label: 'Product Pages',      pct: 0.10, color: '#10b981' },
+    { label: 'Admin Duration',     pct: 0.06, color: '#6b7094' },
   ];
 
   const weightsEl = document.getElementById('weights');
@@ -387,7 +436,7 @@
           <span class="weight-row__label">${w.label}</span>
           <div class="weight-row__bar">
             <div class="weight-row__fill" data-w="${width}"
-                 style="background: linear-gradient(90deg, ${w.color}, ${w.color}80);"></div>
+                 style="background: linear-gradient(90deg, ${w.color}, ${w.color}60);"></div>
           </div>
           <span class="weight-row__pct">${Math.round(w.pct * 100)}%</span>
         </div>`;
@@ -398,7 +447,7 @@
       weightsEl.querySelectorAll('.weight-row__fill').forEach(f => {
         f.style.width = f.dataset.w + '%';
       });
-    }, 250);
+    }, 300);
   }
 
   /* ═══ 9. SCROLL REVEAL ═════════════════════════════════ */
@@ -413,14 +462,38 @@
           io.unobserve(e.target);
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.1 });
     reveals.forEach(el => io.observe(el));
   } else {
     reveals.forEach(el => el.classList.add('is-in'));
   }
 
-  /* ═══ 10. INIT ════════════════════════════════════════ */
+  /* ═══ 10. SMOOTH NAV SCROLL HIGHLIGHT ═════════════════ */
+  const navLinks = document.querySelectorAll('.masthead__nav a');
+  const sections = document.querySelectorAll('[id]');
+
+  function highlightNav() {
+    let current = '';
+    sections.forEach(section => {
+      const top = section.getBoundingClientRect().top;
+      if (top < window.innerHeight * 0.4) {
+        current = section.id;
+      }
+    });
+    navLinks.forEach(link => {
+      link.style.color = link.getAttribute('href') === '#' + current
+        ? '#ff6b35'
+        : '';
+      link.style.background = link.getAttribute('href') === '#' + current
+        ? 'rgba(255, 107, 53, 0.08)'
+        : '';
+    });
+  }
+  window.addEventListener('scroll', highlightNav, { passive: true });
+
+  /* ═══ 11. INIT ════════════════════════════════════════ */
   paintSliderValues();
   onChange();
+  highlightNav();
 
 })();
