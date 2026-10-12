@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="The Oracle — A machine-learning model that reads the digital body language of online shoppers. Trained on 12,330 sessions.">
-  <title>The Oracle · Shoppers Intention</title>
+  <meta name="description" content="The Oracle — An advanced machine-learning suite predicting online shopper purchase intent from 17 digital behavioral signals. Trained on 12,330 sessions.">
+  <title>The Oracle · Shoppers Intention AI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,11 +19,14 @@
     <div class="aurora__blob aurora__blob--3"></div>
   </div>
 
-  <!-- Constellation canvas -->
+  <!-- Interactive Constellation canvas -->
   <canvas id="stars" aria-hidden="true"></canvas>
 
-  <!-- Grain overlay -->
+  <!-- Film grain overlay -->
   <div class="grain" aria-hidden="true"></div>
+
+  <!-- Toast notification outlet -->
+  <div class="toast-hub" id="toast-hub" aria-live="polite"></div>
 
   <main class="shell">
 
@@ -31,26 +34,61 @@
     <header class="masthead">
       <div class="masthead__row">
         <div class="mark">
-          <span class="mark__glyph">◐</span>
-          <span class="mark__word">The Oracle</span>
+          <span class="mark__glyph" aria-hidden="true">◐</span>
+          <div class="mark__text-group">
+            <span class="mark__word">The Oracle</span>
+            <span class="mark__badge">AI Intent Engine</span>
+          </div>
         </div>
+
         <nav class="masthead__nav" aria-label="Sections">
-          <a href="#oracle">Oracle</a>
-          <a href="#features">Features</a>
-          <a href="#model">Model</a>
+          <a href="#archetypes">Archetypes</a>
+          <a href="#oracle">Simulator</a>
+          <a href="#verdict-card">Verdict</a>
+          <a href="#features">Feature Weights</a>
+          <a href="#benchmarks">Benchmark Matrix</a>
         </nav>
-        <div class="masthead__meta">
-          <span class="status">
-            <span class="status__pulse"></span>
-            Live · v2.0
-          </span>
+
+        <div class="masthead__actions">
+          <button type="button" class="action-btn" id="btn-sound" title="Toggle audio feedback" aria-label="Toggle audio feedback">
+            <svg class="action-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+              <path class="sound-wave sound-wave--1" d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+              <path class="sound-wave sound-wave--2" d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+            </svg>
+            <span class="action-btn__label" id="sound-label">Sound Off</span>
+          </button>
+
+          <button type="button" class="action-btn" id="btn-export" title="Export session configuration" aria-label="Export session parameters as JSON">
+            <svg class="action-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span class="action-btn__label">Export</span>
+          </button>
+
+          <button type="button" class="action-btn action-btn--reset" id="btn-reset" title="Reset all inputs to default" aria-label="Reset simulation to default baseline">
+            <svg class="action-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </svg>
+            <span class="action-btn__label">Reset</span>
+          </button>
+
+          <div class="status" title="Simulation engine active">
+            <span class="status__pulse" aria-hidden="true"></span>
+            <span>Live · v2.5</span>
+          </div>
         </div>
       </div>
 
+      <!-- HERO SECTION -->
       <section class="hero">
         <div class="hero__eyebrow">
-          <span class="eyebrow-rule"></span>
-          <span>Random Forest · 89.25% accuracy</span>
+          <span class="eyebrow-rule" aria-hidden="true"></span>
+          <span class="pill-badge">Random Forest · 89.25% Accuracy</span>
+          <span class="pill-badge pill-badge--alt">12,330 Sessions Benchmarked</span>
         </div>
 
         <h1 class="hero__title">
@@ -59,234 +97,430 @@
         </h1>
 
         <p class="hero__lede">
-          Seventeen signals. One decision. The Oracle watches how a session
-          unfolds — the time spent, the pages touched, the path abandoned —
-          and tells you, before the cart loads, whether this browser
-          becomes a buyer.
+          Seventeen behavioral signals. One instant verdict. The Oracle interprets
+          subtle digital body language — depth of exploration, page dwell time,
+          abandonment friction, and seasonal signals — predicting whether a visitor
+          converts into revenue before checkout ever begins.
         </p>
 
         <div class="hero__cta">
           <a href="#oracle" class="btn btn--primary">
-            Consult the Oracle
-            <span class="btn__arrow">→</span>
+            Explore Simulator
+            <span class="btn__arrow" aria-hidden="true">→</span>
           </a>
-          <span class="hero__stat">
-            <strong>12,330</strong> sessions · <strong>17</strong> features
-          </span>
+          <button type="button" class="btn btn--secondary" id="btn-hero-random">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <polyline points="16 3 21 3 21 8"/>
+              <line x1="4" y1="20" x2="21" y2="3"/>
+              <polyline points="21 16 21 21 16 21"/>
+              <line x1="15" y1="15" x2="21" y2="21"/>
+              <line x1="4" y1="4" x2="9" y2="9"/>
+            </svg>
+            Roll Random Session
+          </button>
+          <div class="hero__stat">
+            <strong>12,330</strong> sessions · <strong>4</strong> models tuned · <strong>15.5%</strong> baseline buy rate
+          </div>
         </div>
       </section>
     </header>
 
+    <!-- ═══ SHOPPER ARCHETYPES COMPONENT ═══ -->
+    <section class="archetypes-section" id="archetypes">
+      <div class="section-head">
+        <div class="section-head__meta">
+          <span class="section-tag">Scenario Archetypes</span>
+          <h2 class="section-title">Instant Session Presets</h2>
+        </div>
+        <p class="section-desc">
+          Click any archetype to instantly configure 17 clickstream signals and observe how the machine learning model responds.
+        </p>
+      </div>
+
+      <div class="archetypes-grid">
+        <button type="button" class="archetype-card" data-archetype="high-intent">
+          <div class="archetype-card__header">
+            <span class="archetype-icon">🛒</span>
+            <span class="archetype-badge archetype-badge--high">~89% Intent</span>
+          </div>
+          <h3 class="archetype-name">High-Intent Buyer</h3>
+          <p class="archetype-desc">High product engagement, multiple sessions, strong Page Value in November campaign.</p>
+          <span class="archetype-action">Load Archetype →</span>
+        </button>
+
+        <button type="button" class="archetype-card" data-archetype="casual-browser">
+          <div class="archetype-card__header">
+            <span class="archetype-icon">👀</span>
+            <span class="archetype-badge archetype-badge--mid">~24% Intent</span>
+          </div>
+          <h3 class="archetype-name">Window Shopper</h3>
+          <p class="archetype-desc">Casual product browsing without reaching high-value checkout pages. Zero page value.</p>
+          <span class="archetype-action">Load Archetype →</span>
+        </button>
+
+        <button type="button" class="archetype-card" data-archetype="quick-bounce">
+          <div class="archetype-card__header">
+            <span class="archetype-icon">🚪</span>
+            <span class="archetype-badge archetype-badge--low">~3% Intent</span>
+          </div>
+          <h3 class="archetype-name">Immediate Bouncer</h3>
+          <p class="archetype-desc">Single-page landing, 0 dwell time, high exit & bounce rate. Likely an accidental misclick.</p>
+          <span class="archetype-action">Load Archetype →</span>
+        </button>
+
+        <button type="button" class="archetype-card" data-archetype="researcher">
+          <div class="archetype-card__header">
+            <span class="archetype-icon">🔍</span>
+            <span class="archetype-badge archetype-badge--high">~68% Intent</span>
+          </div>
+          <h3 class="archetype-name">Deep Researcher</h3>
+          <p class="archetype-desc">Extensive time reviewing policies, specs, administrative & informational pages.</p>
+          <span class="archetype-action">Load Archetype →</span>
+        </button>
+
+        <button type="button" class="archetype-card" data-archetype="holiday-rusher">
+          <div class="archetype-card__header">
+            <span class="archetype-icon">⚡</span>
+            <span class="archetype-badge archetype-badge--high">~82% Intent</span>
+          </div>
+          <h3 class="archetype-name">Holiday Deal Rusher</h3>
+          <p class="archetype-desc">High special-day proximity in December, intense product viewing, fast cart velocity.</p>
+          <span class="archetype-action">Load Archetype →</span>
+        </button>
+      </div>
+    </section>
+
     <!-- ═══ BENTO GRID ═══ -->
     <div class="bento" id="oracle">
 
-      <!-- ── INPUT PANEL (left, large) ── -->
+      <!-- ── 01. INPUT PANEL (Interactive Session Signals) ── -->
       <article class="card card--input glass">
         <div class="card__head">
-          <div class="card__index">01</div>
-          <div>
-            <h2 class="card__title">The Session</h2>
-            <p class="card__sub">Describe the visitor's behaviour</p>
+          <div class="card__head-left">
+            <div class="card__index">01</div>
+            <div>
+              <h2 class="card__title">The Session Simulator</h2>
+              <p class="card__sub">Fine-tune the 17 behavioral clickstream signals</p>
+            </div>
+          </div>
+          <div class="cluster-tabs" role="tablist" aria-label="Signal categories">
+            <button type="button" class="cluster-tab is-active" data-filter="all" role="tab" aria-selected="true">All</button>
+            <button type="button" class="cluster-tab" data-filter="browsing" role="tab" aria-selected="false">Browsing</button>
+            <button type="button" class="cluster-tab" data-filter="metrics" role="tab" aria-selected="false">Page Metrics</button>
+            <button type="button" class="cluster-tab" data-filter="context" role="tab" aria-selected="false">Context</button>
           </div>
         </div>
 
-        <!-- Browsing -->
-        <fieldset class="cluster">
+        <!-- Browsing behaviour cluster -->
+        <fieldset class="cluster" data-category="browsing">
           <legend class="cluster__legend">
             <span class="cluster__dot" style="--c: #ff6b35"></span>
-            Browsing behaviour
+            Browsing Behaviour & Duration
+            <span class="cluster__count">6 signals</span>
           </legend>
           <div class="cluster__grid">
 
             <div class="field">
               <div class="field__head">
-                <label for="administrative">Administrative pages</label>
-                <output class="field__val" id="val-administrative">0</output>
+                <div class="field__label-wrap">
+                  <label for="administrative">Administrative pages</label>
+                  <span class="info-tip" data-tip="Pages visited related to account, profile, terms, or order history.">?</span>
+                </div>
+                <div class="field__val-stepper">
+                  <button type="button" class="step-btn" data-step-for="administrative" data-dir="-1" aria-label="Decrease administrative pages">-</button>
+                  <output class="field__val" id="val-administrative">0</output>
+                  <button type="button" class="step-btn" data-step-for="administrative" data-dir="1" aria-label="Increase administrative pages">+</button>
+                </div>
               </div>
               <input type="range" id="administrative" min="0" max="27" step="1" value="0">
-              <div class="field__scale"><span>0</span><span>27</span></div>
+              <div class="field__scale"><span>0 pg</span><span>27 pg</span></div>
             </div>
 
             <div class="field">
               <div class="field__head">
-                <label for="administrative-duration">Admin duration (s)</label>
-                <output class="field__val" id="val-administrative-duration">0</output>
+                <div class="field__label-wrap">
+                  <label for="administrative-duration">Admin duration (s)</label>
+                  <span class="info-tip" data-tip="Total seconds spent across administrative and account pages.">?</span>
+                </div>
+                <div class="field__val-stepper">
+                  <button type="button" class="step-btn" data-step-for="administrative-duration" data-dir="-1" aria-label="Decrease admin duration">-</button>
+                  <output class="field__val" id="val-administrative-duration">0</output>
+                  <button type="button" class="step-btn" data-step-for="administrative-duration" data-dir="1" aria-label="Increase admin duration">+</button>
+                </div>
               </div>
               <input type="range" id="administrative-duration" min="0" max="3400" step="10" value="0">
-              <div class="field__scale"><span>0</span><span>3.4k</span></div>
+              <div class="field__scale"><span>0s</span><span>3,400s</span></div>
             </div>
 
             <div class="field">
               <div class="field__head">
-                <label for="informational">Informational pages</label>
-                <output class="field__val" id="val-informational">0</output>
+                <div class="field__label-wrap">
+                  <label for="informational">Informational pages</label>
+                  <span class="info-tip" data-tip="Pages visited regarding contact info, about us, shipping FAQs, or helpdesk.">?</span>
+                </div>
+                <div class="field__val-stepper">
+                  <button type="button" class="step-btn" data-step-for="informational" data-dir="-1" aria-label="Decrease informational pages">-</button>
+                  <output class="field__val" id="val-informational">0</output>
+                  <button type="button" class="step-btn" data-step-for="informational" data-dir="1" aria-label="Increase informational pages">+</button>
+                </div>
               </div>
               <input type="range" id="informational" min="0" max="24" step="1" value="0">
-              <div class="field__scale"><span>0</span><span>24</span></div>
+              <div class="field__scale"><span>0 pg</span><span>24 pg</span></div>
             </div>
 
             <div class="field">
               <div class="field__head">
-                <label for="informational-duration">Info duration (s)</label>
-                <output class="field__val" id="val-informational-duration">0</output>
+                <div class="field__label-wrap">
+                  <label for="informational-duration">Info duration (s)</label>
+                  <span class="info-tip" data-tip="Total seconds spent reviewing informational, policy, or shipping content.">?</span>
+                </div>
+                <div class="field__val-stepper">
+                  <button type="button" class="step-btn" data-step-for="informational-duration" data-dir="-1" aria-label="Decrease info duration">-</button>
+                  <output class="field__val" id="val-informational-duration">0</output>
+                  <button type="button" class="step-btn" data-step-for="informational-duration" data-dir="1" aria-label="Increase info duration">+</button>
+                </div>
               </div>
               <input type="range" id="informational-duration" min="0" max="2550" step="10" value="0">
-              <div class="field__scale"><span>0</span><span>2.5k</span></div>
+              <div class="field__scale"><span>0s</span><span>2,550s</span></div>
             </div>
 
             <div class="field">
               <div class="field__head">
-                <label for="product-related">Product pages</label>
-                <output class="field__val" id="val-product-related">1</output>
+                <div class="field__label-wrap">
+                  <label for="product-related">Product pages</label>
+                  <span class="info-tip" data-tip="Number of catalog, item detail, category, and shopping cart pages visited.">?</span>
+                </div>
+                <div class="field__val-stepper">
+                  <button type="button" class="step-btn" data-step-for="product-related" data-dir="-1" aria-label="Decrease product pages">-</button>
+                  <output class="field__val" id="val-product-related">1</output>
+                  <button type="button" class="step-btn" data-step-for="product-related" data-dir="1" aria-label="Increase product pages">+</button>
+                </div>
               </div>
               <input type="range" id="product-related" min="0" max="705" step="1" value="1">
-              <div class="field__scale"><span>0</span><span>705</span></div>
+              <div class="field__scale"><span>0 pg</span><span>705 pg</span></div>
             </div>
 
             <div class="field">
               <div class="field__head">
-                <label for="product-related-duration">Product duration (s)</label>
-                <output class="field__val" id="val-product-related-duration">0</output>
+                <div class="field__label-wrap">
+                  <label for="product-related-duration">Product duration (s)</label>
+                  <span class="info-tip" data-tip="Total time spent looking at product listings, galleries, and specifications.">?</span>
+                </div>
+                <div class="field__val-stepper">
+                  <button type="button" class="step-btn" data-step-for="product-related-duration" data-dir="-1" aria-label="Decrease product duration">-</button>
+                  <output class="field__val" id="val-product-related-duration">0</output>
+                  <button type="button" class="step-btn" data-step-for="product-related-duration" data-dir="1" aria-label="Increase product duration">+</button>
+                </div>
               </div>
               <input type="range" id="product-related-duration" min="0" max="64000" step="100" value="0">
-              <div class="field__scale"><span>0</span><span>64k</span></div>
+              <div class="field__scale"><span>0s</span><span>64,000s</span></div>
             </div>
 
           </div>
         </fieldset>
 
-        <!-- Metrics -->
-        <fieldset class="cluster">
+        <!-- Page Metrics cluster -->
+        <fieldset class="cluster" data-category="metrics">
           <legend class="cluster__legend">
             <span class="cluster__dot" style="--c: #f43f5e"></span>
-            Page metrics
+            Google Analytics Page Metrics
+            <span class="cluster__count">4 signals</span>
           </legend>
           <div class="cluster__grid">
 
             <div class="field">
               <div class="field__head">
-                <label for="bounce-rates">Bounce rate</label>
-                <output class="field__val" id="val-bounce-rates">0.020</output>
+                <div class="field__label-wrap">
+                  <label for="bounce-rates">Bounce rate</label>
+                  <span class="info-tip" data-tip="Percentage of visitors who enter and leave from the exact same page without browsing.">?</span>
+                </div>
+                <div class="field__val-stepper">
+                  <button type="button" class="step-btn" data-step-for="bounce-rates" data-dir="-1" aria-label="Decrease bounce rate">-</button>
+                  <output class="field__val" id="val-bounce-rates">0.020</output>
+                  <button type="button" class="step-btn" data-step-for="bounce-rates" data-dir="1" aria-label="Increase bounce rate">+</button>
+                </div>
               </div>
               <input type="range" id="bounce-rates" min="0" max="0.2" step="0.001" value="0.02">
-              <div class="field__scale"><span>0.00</span><span>0.20</span></div>
+              <div class="field__scale"><span>0.00 (Low)</span><span>0.20 (High)</span></div>
             </div>
 
             <div class="field">
               <div class="field__head">
-                <label for="exit-rates">Exit rate</label>
-                <output class="field__val" id="val-exit-rates">0.040</output>
+                <div class="field__label-wrap">
+                  <label for="exit-rates">Exit rate</label>
+                  <span class="info-tip" data-tip="Percentage of pageviews that were the final view in the visitor's session.">?</span>
+                </div>
+                <div class="field__val-stepper">
+                  <button type="button" class="step-btn" data-step-for="exit-rates" data-dir="-1" aria-label="Decrease exit rate">-</button>
+                  <output class="field__val" id="val-exit-rates">0.040</output>
+                  <button type="button" class="step-btn" data-step-for="exit-rates" data-dir="1" aria-label="Increase exit rate">+</button>
+                </div>
               </div>
               <input type="range" id="exit-rates" min="0" max="0.2" step="0.001" value="0.04">
-              <div class="field__scale"><span>0.00</span><span>0.20</span></div>
+              <div class="field__scale"><span>0.00 (Low)</span><span>0.20 (High)</span></div>
             </div>
 
-            <div class="field">
+            <div class="field field--highlight">
               <div class="field__head">
-                <label for="page-values">Page value</label>
-                <output class="field__val" id="val-page-values">0</output>
+                <div class="field__label-wrap">
+                  <label for="page-values">Page value</label>
+                  <span class="badge-vital">Key Driver</span>
+                  <span class="info-tip" data-tip="Average value of the pages touched prior to completing a transaction. The #1 purchase signal.">?</span>
+                </div>
+                <div class="field__val-stepper">
+                  <button type="button" class="step-btn" data-step-for="page-values" data-dir="-1" aria-label="Decrease page value">-</button>
+                  <output class="field__val" id="val-page-values">0</output>
+                  <button type="button" class="step-btn" data-step-for="page-values" data-dir="1" aria-label="Increase page value">+</button>
+                </div>
               </div>
               <input type="range" id="page-values" min="0" max="360" step="1" value="0">
-              <div class="field__scale"><span>0</span><span>360</span></div>
+              <div class="field__scale"><span>0.0</span><span>360.0</span></div>
             </div>
 
             <div class="field">
               <div class="field__head">
-                <label for="special-day">Special day proximity</label>
-                <output class="field__val" id="val-special-day">0.0</output>
+                <div class="field__label-wrap">
+                  <label for="special-day">Special day proximity</label>
+                  <span class="info-tip" data-tip="Proximity of visit to major holiday (e.g., Mother's Day, Valentine's, Black Friday).">?</span>
+                </div>
+                <div class="field__val-stepper">
+                  <button type="button" class="step-btn" data-step-for="special-day" data-dir="-1" aria-label="Decrease special day proximity">-</button>
+                  <output class="field__val" id="val-special-day">0.0</output>
+                  <button type="button" class="step-btn" data-step-for="special-day" data-dir="1" aria-label="Increase special day proximity">+</button>
+                </div>
               </div>
               <input type="range" id="special-day" min="0" max="1" step="0.1" value="0">
-              <div class="field__scale"><span>far</span><span>close</span></div>
+              <div class="field__scale"><span>0.0 (Far)</span><span>1.0 (Exact day)</span></div>
             </div>
 
           </div>
         </fieldset>
 
-        <!-- Context -->
-        <fieldset class="cluster">
+        <!-- Session Context cluster -->
+        <fieldset class="cluster" data-category="context">
           <legend class="cluster__legend">
             <span class="cluster__dot" style="--c: #8b5cf6"></span>
-            Session context
+            Temporal, Acquisition & Device Context
+            <span class="cluster__count">7 signals</span>
           </legend>
           <div class="cluster__grid cluster__grid--select">
 
             <div class="field">
-              <label for="month">Month</label>
-              <select id="month">
-                <option value="Feb">February</option>
-                <option value="Mar">March</option>
-                <option value="May">May</option>
-                <option value="Jun" selected>June</option>
-                <option value="Jul">July</option>
-                <option value="Aug">August</option>
-                <option value="Sep">September</option>
-                <option value="Oct">October</option>
-                <option value="Nov">November</option>
-                <option value="Dec">December</option>
-              </select>
+              <label for="month">Calendar Month</label>
+              <div class="select-wrapper">
+                <select id="month">
+                  <option value="Feb">February</option>
+                  <option value="Mar">March</option>
+                  <option value="May">May</option>
+                  <option value="Jun" selected>June</option>
+                  <option value="Jul">July</option>
+                  <option value="Aug">August</option>
+                  <option value="Sep">September</option>
+                  <option value="Oct">October</option>
+                  <option value="Nov">November (Cyber Peak)</option>
+                  <option value="Dec">December (Holidays)</option>
+                </select>
+              </div>
             </div>
 
             <div class="field">
-              <label for="visitor-type">Visitor type</label>
-              <select id="visitor-type">
-                <option value="Returning_Visitor" selected>Returning visitor</option>
-                <option value="New_Visitor">New visitor</option>
-                <option value="Other">Other</option>
-              </select>
+              <label for="visitor-type">Visitor Cohort</label>
+              <div class="select-wrapper">
+                <select id="visitor-type">
+                  <option value="Returning_Visitor" selected>Returning Visitor</option>
+                  <option value="New_Visitor">New Visitor</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
             </div>
 
             <div class="field">
-              <label for="os">Operating system</label>
-              <select id="os">
-                <option value="1">OS 1</option><option value="2" selected>OS 2</option>
-                <option value="3">OS 3</option><option value="4">OS 4</option>
-                <option value="5">OS 5</option><option value="6">OS 6</option>
-                <option value="7">OS 7</option><option value="8">OS 8</option>
-              </select>
+              <label for="os">Operating System</label>
+              <div class="select-wrapper">
+                <select id="os">
+                  <option value="1">OS 1 (Windows Desktop)</option>
+                  <option value="2" selected>OS 2 (macOS / iOS)</option>
+                  <option value="3">OS 3 (Android Mobile)</option>
+                  <option value="4">OS 4 (Linux)</option>
+                  <option value="5">OS 5 (ChromeOS)</option>
+                  <option value="6">OS 6 (Alternative)</option>
+                  <option value="7">OS 7 (Legacy)</option>
+                  <option value="8">OS 8 (Embedded)</option>
+                </select>
+              </div>
             </div>
 
             <div class="field">
-              <label for="browser">Browser</label>
-              <select id="browser">
-                <option value="1">Browser 1</option><option value="2" selected>Browser 2</option>
-                <option value="3">Browser 3</option><option value="4">Browser 4</option>
-                <option value="5">Browser 5</option><option value="6">Browser 6</option>
-                <option value="7">Browser 7</option><option value="8">Browser 8</option>
-                <option value="9">Browser 9</option><option value="10">Browser 10</option>
-                <option value="11">Browser 11</option><option value="12">Browser 12</option>
-                <option value="13">Browser 13</option>
-              </select>
+              <label for="browser">Browser Client</label>
+              <div class="select-wrapper">
+                <select id="browser">
+                  <option value="1">Browser 1 (Chrome)</option>
+                  <option value="2" selected>Browser 2 (Safari)</option>
+                  <option value="3">Browser 3 (Edge)</option>
+                  <option value="4">Browser 4 (Firefox)</option>
+                  <option value="5">Browser 5 (Samsung Internet)</option>
+                  <option value="6">Browser 6 (Opera)</option>
+                  <option value="7">Browser 7 (UC Browser)</option>
+                  <option value="8">Browser 8 (DuckDuckGo)</option>
+                  <option value="9">Browser 9</option>
+                  <option value="10">Browser 10</option>
+                  <option value="11">Browser 11</option>
+                  <option value="12">Browser 12</option>
+                  <option value="13">Browser 13</option>
+                </select>
+              </div>
             </div>
 
             <div class="field">
-              <label for="region">Region</label>
-              <select id="region">
-                <option value="1" selected>Region 1</option>
-                <option value="2">Region 2</option><option value="3">Region 3</option>
-                <option value="4">Region 4</option><option value="5">Region 5</option>
-                <option value="6">Region 6</option><option value="7">Region 7</option>
-                <option value="8">Region 8</option><option value="9">Region 9</option>
-              </select>
+              <label for="region">Geographic Region</label>
+              <div class="select-wrapper">
+                <select id="region">
+                  <option value="1" selected>Region 1 (Metro North)</option>
+                  <option value="2">Region 2 (Coastal Urban)</option>
+                  <option value="3">Region 3 (Western Hub)</option>
+                  <option value="4">Region 4 (Southern District)</option>
+                  <option value="5">Region 5 (Central Valley)</option>
+                  <option value="6">Region 6 (Highland District)</option>
+                  <option value="7">Region 7 (Eastern Seaboard)</option>
+                  <option value="8">Region 8 (Territory)</option>
+                  <option value="9">Region 9 (International)</option>
+                </select>
+              </div>
             </div>
 
             <div class="field">
-              <label for="traffic-type">Traffic source</label>
-              <select id="traffic-type">
-                <option value="1">Source 1</option><option value="2" selected>Source 2</option>
-                <option value="3">Source 3</option><option value="4">Source 4</option>
-                <option value="5">Source 5</option><option value="6">Source 6</option>
-                <option value="7">Source 7</option><option value="8">Source 8</option>
-                <option value="9">Source 9</option><option value="10">Source 10</option>
-                <option value="11">Source 11</option><option value="12">Source 12</option>
-                <option value="13">Source 13</option><option value="14">Source 14</option>
-                <option value="15">Source 15</option><option value="16">Source 16</option>
-                <option value="17">Source 17</option><option value="18">Source 18</option>
-                <option value="19">Source 19</option><option value="20">Source 20</option>
-              </select>
+              <label for="traffic-type">Acquisition Traffic Channel</label>
+              <div class="select-wrapper">
+                <select id="traffic-type">
+                  <option value="1">Channel 1 (Organic Search)</option>
+                  <option value="2" selected>Channel 2 (Direct Navigation)</option>
+                  <option value="3">Channel 3 (Paid Search Ads)</option>
+                  <option value="4">Channel 4 (Social Campaign)</option>
+                  <option value="5">Channel 5 (Affiliate Referral)</option>
+                  <option value="6">Channel 6 (Email Marketing)</option>
+                  <option value="7">Channel 7 (Display Retargeting)</option>
+                  <option value="8">Channel 8 (Price Comparison)</option>
+                  <option value="9">Channel 9</option>
+                  <option value="10">Channel 10</option>
+                  <option value="11">Channel 11</option>
+                  <option value="12">Channel 12</option>
+                  <option value="13">Channel 13 (Partner Feed)</option>
+                  <option value="14">Channel 14</option>
+                  <option value="15">Channel 15</option>
+                  <option value="16">Channel 16</option>
+                  <option value="17">Channel 17</option>
+                  <option value="18">Channel 18</option>
+                  <option value="19">Channel 19</option>
+                  <option value="20">Channel 20 (Direct Push)</option>
+                </select>
+              </div>
             </div>
 
             <div class="field field--toggle">
-              <label for="weekend">Weekend session</label>
+              <div class="toggle-text">
+                <label for="weekend">Weekend Session</label>
+                <span class="toggle-sub">Saturday or Sunday shopping</span>
+              </div>
               <label class="switch">
                 <input type="checkbox" id="weekend">
                 <span class="switch__rail"><span class="switch__knob"></span></span>
@@ -297,47 +531,72 @@
         </fieldset>
       </article>
 
-      <!-- ── VERDICT (right top) ── -->
+      <!-- ── 02. VERDICT (Live ML Prediction & Diagnostic) ── -->
       <article class="card card--verdict glass" id="verdict-card">
         <div class="card__head">
-          <div class="card__index">02</div>
-          <div>
-            <h2 class="card__title">The Reading</h2>
-            <p class="card__sub">A live verdict, by the model</p>
+          <div class="card__head-left">
+            <div class="card__index">02</div>
+            <div>
+              <h2 class="card__title">The Reading</h2>
+              <p class="card__sub">Random Forest inference in real time</p>
+            </div>
+          </div>
+          <div class="threshold-pill" title="Probability required to classify as Purchase">
+            <span>Cutoff:</span>
+            <strong id="cutoff-label">50%</strong>
           </div>
         </div>
 
         <div class="verdict">
+          <!-- DIAL GAUGE WITH DUAL ARCS -->
           <div class="verdict__dial">
-            <svg viewBox="0 0 220 220" class="dial">
+            <svg viewBox="0 0 220 220" class="dial" aria-hidden="true">
               <defs>
                 <linearGradient id="dialGrad" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0%" stop-color="#ff6b35"/>
                   <stop offset="50%" stop-color="#f43f5e"/>
                   <stop offset="100%" stop-color="#8b5cf6"/>
                 </linearGradient>
+                <linearGradient id="dialGradBuy" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#10b981"/>
+                  <stop offset="50%" stop-color="#06b6d4"/>
+                  <stop offset="100%" stop-color="#3b82f6"/>
+                </linearGradient>
+                <filter id="dialFilter">
+                  <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#ff6b35" flood-opacity="0.4"/>
+                </filter>
               </defs>
               <!-- decorative ticks -->
               <g class="dial__ticks" id="dial-ticks"></g>
+              <!-- background track -->
               <circle class="dial__bg" cx="110" cy="110" r="92"/>
+              <!-- active fill -->
               <circle class="dial__fill" cx="110" cy="110" r="92" id="dial-fill"
                       stroke-dasharray="578.05" stroke-dashoffset="578.05"/>
               <circle class="dial__glow" cx="110" cy="110" r="92" id="dial-glow"/>
+              <!-- 50% Threshold marker pin -->
+              <line class="dial__threshold-marker" x1="110" y1="18" x2="110" y2="28"/>
             </svg>
+
             <div class="verdict__num">
-              <span id="verdict-percent">0</span><span class="verdict__unit">%</span>
-              <small>Purchase probability</small>
+              <div class="verdict__num-val">
+                <span id="verdict-percent">0</span><span class="verdict__unit">%</span>
+              </div>
+              <small>Purchase Probability</small>
             </div>
           </div>
 
+          <!-- VERDICT CALL BANNER -->
           <div class="verdict__call" id="verdict-call">
             <span class="verdict__icon" id="verdict-icon">·</span>
             <span class="verdict__text" id="verdict-text">Awaiting reading</span>
+            <span class="verdict__sub-badge" id="verdict-sub-badge">Evaluating</span>
           </div>
 
+          <!-- CONFIDENCE METER -->
           <div class="verdict__signal">
             <div class="verdict__signal-head">
-              <span>Confidence</span>
+              <span>Decision Confidence</span>
               <span id="confid-pct">0%</span>
             </div>
             <div class="track">
@@ -345,77 +604,302 @@
             </div>
           </div>
 
-          <ul class="verdict__why" id="verdict-why">
-            <!-- populated by JS -->
-          </ul>
+          <!-- WHAT-IF CATALYST COMPONENT -->
+          <div class="catalyst-card" id="catalyst-card">
+            <div class="catalyst-card__head">
+              <span class="catalyst-icon">⚡</span>
+              <span class="catalyst-title">What-If Conversion Catalyst</span>
+            </div>
+            <p class="catalyst-desc" id="catalyst-text">Analyzing single highest-leverage signal...</p>
+            <button type="button" class="catalyst-btn" id="btn-apply-catalyst" style="display:none;">
+              Apply Recommended Tweak
+            </button>
+          </div>
+
+          <!-- SHOPPER JOURNEY FUNNEL -->
+          <div class="funnel-journey">
+            <div class="funnel-journey__title">Session Funnel Health</div>
+            <div class="funnel-steps">
+              <div class="funnel-step" id="funnel-step-1">
+                <span class="funnel-step__dot"></span>
+                <span class="funnel-step__name">Acquisition</span>
+                <span class="funnel-step__status" id="funnel-stat-1">Strong</span>
+              </div>
+              <div class="funnel-connector"></div>
+              <div class="funnel-step" id="funnel-step-2">
+                <span class="funnel-step__dot"></span>
+                <span class="funnel-step__name">Browsing</span>
+                <span class="funnel-step__status" id="funnel-stat-2">Normal</span>
+              </div>
+              <div class="funnel-connector"></div>
+              <div class="funnel-step" id="funnel-step-3">
+                <span class="funnel-step__dot"></span>
+                <span class="funnel-step__name">Intent</span>
+                <span class="funnel-step__status" id="funnel-stat-3">Healthy</span>
+              </div>
+              <div class="funnel-connector"></div>
+              <div class="funnel-step" id="funnel-step-4">
+                <span class="funnel-step__dot"></span>
+                <span class="funnel-step__name">Checkout</span>
+                <span class="funnel-step__status" id="funnel-stat-4">Likely</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- DYNAMIC INTERVENTION STRATEGY -->
+          <div class="intervention-box" id="intervention-box">
+            <div class="intervention-box__label">Recommended E-Commerce Action</div>
+            <p class="intervention-box__text" id="intervention-text">
+              Loading dynamic strategy recommendation...
+            </p>
+          </div>
+
+          <!-- TOP INFLUENTIAL SIGNALS -->
+          <div class="drivers-group">
+            <div class="drivers-group__head">
+              <span>Top Driver Breakdown</span>
+              <small>SHAP-style Feature Delta</small>
+            </div>
+            <ul class="verdict__why" id="verdict-why">
+              <!-- populated by JS -->
+            </ul>
+          </div>
         </div>
       </article>
 
-      <!-- ── FEATURE IMPORTANCE (right middle) ── -->
+      <!-- ── 03. FEATURE IMPORTANCE (The Weights) ── -->
       <article class="card card--features glass" id="features">
         <div class="card__head">
-          <div class="card__index">03</div>
-          <div>
-            <h2 class="card__title">The Weights</h2>
-            <p class="card__sub">What the forest listens to</p>
+          <div class="card__head-left">
+            <div class="card__index">03</div>
+            <div>
+              <h2 class="card__title">The Weights</h2>
+              <p class="card__sub">What the Random Forest prioritizes</p>
+            </div>
+          </div>
+          <div class="weights-toggle" role="tablist">
+            <button type="button" class="tab-pill is-active" id="btn-weight-live">Live Impact</button>
+            <button type="button" class="tab-pill" id="btn-weight-global">Global Model</button>
           </div>
         </div>
         <div class="weights" id="weights">
-          <!-- populated by JS -->
+          <!-- populated dynamically by JS -->
         </div>
       </article>
 
-      <!-- ── MODEL CARD (right bottom wide) ── -->
-      <article class="card card--model glass" id="model">
+      <!-- ── 04. BENCHMARKS & MODEL MATRIX (The Vessel) ── -->
+      <article class="card card--model glass" id="benchmarks">
         <div class="card__head">
-          <div class="card__index">04</div>
-          <div>
-            <h2 class="card__title">The Vessel</h2>
-            <p class="card__sub">A peek inside the algorithm</p>
+          <div class="card__head-left">
+            <div class="card__index">04</div>
+            <div>
+              <h2 class="card__title">The Benchmark Matrix</h2>
+              <p class="card__sub">4 Algorithms evaluated on 12,330 e-commerce sessions</p>
+            </div>
+          </div>
+          <div class="model-view-tabs" role="tablist">
+            <button type="button" class="tab-pill is-active" data-vessel-tab="matrix">Comparison</button>
+            <button type="button" class="tab-pill" data-vessel-tab="confusion">Confusion Matrix</button>
+            <button type="button" class="tab-pill" data-vessel-tab="dataset">Dataset Stats</button>
           </div>
         </div>
 
-        <div class="vessel">
-          <div class="vessel__cell">
-            <span class="vessel__num">89.25</span>
-            <span class="vessel__unit">%</span>
-            <span class="vessel__label">Test accuracy</span>
+        <!-- Sub-panel 1: Model Comparison -->
+        <div class="vessel-tab-content is-active" id="vessel-tab-matrix">
+          <div class="vessel">
+            <div class="vessel__cell">
+              <span class="vessel__num">89.25</span>
+              <span class="vessel__unit">%</span>
+              <span class="vessel__label">Random Forest (Champion)</span>
+              <span class="vessel__note">Ensemble of 500 trees</span>
+            </div>
+            <div class="vessel__cell">
+              <span class="vessel__num">88.69</span>
+              <span class="vessel__unit">%</span>
+              <span class="vessel__label">Decision Tree (Tuned)</span>
+              <span class="vessel__note">Entropy, max_depth=5</span>
+            </div>
+            <div class="vessel__cell">
+              <span class="vessel__num">87.27</span>
+              <span class="vessel__unit">%</span>
+              <span class="vessel__label">Logistic Regression</span>
+              <span class="vessel__note">GridSearchCV C=1.0</span>
+            </div>
+            <div class="vessel__cell">
+              <span class="vessel__num">86.58</span>
+              <span class="vessel__unit">%</span>
+              <span class="vessel__label">K-Nearest Neighbors</span>
+              <span class="vessel__note">k=9, distance-weighted</span>
+            </div>
           </div>
-          <div class="vessel__cell">
-            <span class="vessel__num">500</span>
-            <span class="vessel__label">Trees in the forest</span>
+
+          <div class="benchmark-bars">
+            <div class="benchmark-row">
+              <div class="benchmark-row__meta">
+                <span class="benchmark-name">Random Forest Classifier</span>
+                <span class="benchmark-score">89.25%</span>
+              </div>
+              <div class="benchmark-track">
+                <div class="benchmark-bar benchmark-bar--champion" style="width: 89.25%"></div>
+              </div>
+            </div>
+            <div class="benchmark-row">
+              <div class="benchmark-row__meta">
+                <span class="benchmark-name">Decision Tree (GridSearch Tuned)</span>
+                <span class="benchmark-score">88.69%</span>
+              </div>
+              <div class="benchmark-track">
+                <div class="benchmark-bar" style="width: 88.69%"></div>
+              </div>
+            </div>
+            <div class="benchmark-row">
+              <div class="benchmark-row__meta">
+                <span class="benchmark-name">Logistic Regression (L2 Regularized)</span>
+                <span class="benchmark-score">87.27%</span>
+              </div>
+              <div class="benchmark-track">
+                <div class="benchmark-bar" style="width: 87.27%"></div>
+              </div>
+            </div>
+            <div class="benchmark-row">
+              <div class="benchmark-row__meta">
+                <span class="benchmark-name">KNN (k=9, Euclidean Distance)</span>
+                <span class="benchmark-score">86.58%</span>
+              </div>
+              <div class="benchmark-track">
+                <div class="benchmark-bar" style="width: 86.58%"></div>
+              </div>
+            </div>
           </div>
-          <div class="vessel__cell">
-            <span class="vessel__num">12,330</span>
-            <span class="vessel__label">Sessions trained on</span>
+        </div>
+
+        <!-- Sub-panel 2: Confusion Matrix -->
+        <div class="vessel-tab-content" id="vessel-tab-confusion">
+          <div class="cm-wrapper">
+            <div class="cm-info">
+              <h3 class="cm-title">Test Set Evaluation (2,466 Holdout Sessions)</h3>
+              <p class="cm-desc">
+                Real-world e-commerce suffers from heavy class imbalance: only 15.5% of sessions lead to purchase.
+                The model avoids naive majority guessing by isolating non-linear interaction patterns.
+              </p>
+              <div class="cm-metrics">
+                <div class="cm-metric-pill">
+                  <span class="cm-metric-val">73.0%</span>
+                  <span class="cm-metric-lbl">Precision</span>
+                </div>
+                <div class="cm-metric-pill">
+                  <span class="cm-metric-val">48.7%</span>
+                  <span class="cm-metric-lbl">Recall</span>
+                </div>
+                <div class="cm-metric-pill">
+                  <span class="cm-metric-val">58.4%</span>
+                  <span class="cm-metric-lbl">F1-Score</span>
+                </div>
+                <div class="cm-metric-pill">
+                  <span class="cm-metric-val">89.25%</span>
+                  <span class="cm-metric-lbl">Overall Accuracy</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="cm-grid-box">
+              <div class="cm-col-label">Predicted No</div>
+              <div class="cm-col-label">Predicted Buy</div>
+              <div class="cm-row-label">Actual No</div>
+              <div class="cm-cell cm-cell--tn">
+                <span class="cm-cell__num">2,015</span>
+                <span class="cm-cell__type">True Negative (81.7%)</span>
+              </div>
+              <div class="cm-cell cm-cell--fp">
+                <span class="cm-cell__num">69</span>
+                <span class="cm-cell__type">False Positive (2.8%)</span>
+              </div>
+              <div class="cm-row-label">Actual Buy</div>
+              <div class="cm-cell cm-cell--fn">
+                <span class="cm-cell__num">196</span>
+                <span class="cm-cell__type">False Negative (7.9%)</span>
+              </div>
+              <div class="cm-cell cm-cell--tp">
+                <span class="cm-cell__num">186</span>
+                <span class="cm-cell__type">True Positive (7.5%)</span>
+              </div>
+            </div>
           </div>
-          <div class="vessel__cell">
-            <span class="vessel__num">17</span>
-            <span class="vessel__label">Input signals</span>
+        </div>
+
+        <!-- Sub-panel 3: Dataset Stats -->
+        <div class="vessel-tab-content" id="vessel-tab-dataset">
+          <div class="dataset-stats">
+            <div class="dataset-cell">
+              <span class="dataset-cell__val">12,330</span>
+              <span class="dataset-cell__lbl">Total Raw Sessions</span>
+              <span class="dataset-cell__sub">UCI Machine Learning Repository</span>
+            </div>
+            <div class="dataset-cell">
+              <span class="dataset-cell__val">10,422 (84.5%)</span>
+              <span class="dataset-cell__lbl">No Purchase Sessions</span>
+              <span class="dataset-cell__sub">Window shoppers & drop-offs</span>
+            </div>
+            <div class="dataset-cell">
+              <span class="dataset-cell__val">1,908 (15.5%)</span>
+              <span class="dataset-cell__lbl">Purchasing Sessions</span>
+              <span class="dataset-cell__sub">Converted buyer sessions</span>
+            </div>
+            <div class="dataset-cell">
+              <span class="dataset-cell__val">80 / 20</span>
+              <span class="dataset-cell__lbl">Train / Test Split</span>
+              <span class="dataset-cell__sub">Stratified holdout validation</span>
+            </div>
           </div>
         </div>
 
         <div class="quote">
           <span class="quote__mark">"</span>
-          The model learns from a year of human indecision — every abandoned
-          cart, every deep-scroll at 2 a.m. — and finds the pattern hidden
-          in 12,330 sessions.
+          The model learns from a year of human hesitation — every abandoned cart,
+          every deep product comparison at 2 a.m. — turning raw clickstream entropy into
+          actionable revenue predictions.
         </div>
       </article>
 
     </div><!-- .bento -->
 
+    <!-- ═══ EXPORT MODAL ═══ -->
+    <dialog class="modal glass" id="export-modal" aria-labelledby="modal-title">
+      <div class="modal__head">
+        <div>
+          <h3 class="modal__title" id="modal-title">Export Session Configuration</h3>
+          <p class="modal__sub">Ready for scikit-learn pipeline inference or JSON test harnesses</p>
+        </div>
+        <button type="button" class="modal__close" id="btn-modal-close" aria-label="Close modal">×</button>
+      </div>
+      <div class="modal__body">
+        <pre class="json-code" id="export-json-code"><code></code></pre>
+      </div>
+      <div class="modal__foot">
+        <button type="button" class="btn btn--secondary" id="btn-copy-json">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          Copy to Clipboard
+        </button>
+        <button type="button" class="btn btn--primary" id="btn-download-json">
+          Download .json
+        </button>
+      </div>
+    </dialog>
+
     <!-- ═══ FOOTER ═══ -->
     <footer class="foot">
       <div class="foot__left">
         <span class="mark mark--small">
-          <span class="mark__glyph">◐</span>
+          <span class="mark__glyph" aria-hidden="true">◐</span>
           The Oracle
         </span>
-        <span>Built with care · UCI Online Shoppers dataset</span>
+        <span>Built with care · UCI Online Shoppers Purchasing Intention Dataset</span>
       </div>
       <div class="foot__right">
-        <span>Predictions are client-side simulations of a Random Forest classifier.</span>
+        <span>Random Forest classifier benchmarked against Decision Tree, Logistic Regression, & KNN.</span>
       </div>
     </footer>
 
